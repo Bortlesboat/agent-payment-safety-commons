@@ -1,0 +1,12 @@
+{
+  "name": "agent-payment-safety-commons",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Open safety fixtures and checks for x402/MPP-style agent payments.",
+  "scripts": {
+    "check": "node src/check-agent-payment-safety.mjs scenarios/payment-scenarios.json output/safety-report.json",
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "safe_small_x402_api_call",
+    "description": "Agent pays a known Base x402 API endpoint inside the configured per-call budget.",
+    "protocol": "x402",
+    "network": "base",
+    "amountUsd": 0.005,
+    "policy": {
+      "maxPerCallUsd": 0.05,
+      "allowedNetworks": ["base"],
+      "requireReceiptBinding": true,
+      "allowPromptRequestedPurchase": true
+    },
+    "paymentChallenge": {
+      "resource": "https://example.invalid/api/fees/now",
+      "payTo": "0x0000000000000000000000000000000000000001",
+      "nonce": "call-001",
+      "expiresAt": "2026-05-10T23:00:00Z"
+    },
+    "receipt": {
+      "resource": "https://example.invalid/api/fees/now",
+      "amountUsd": 0.005,
+      "network": "base",
+      "nonce": "call-001"
+    },
+    "prompt": "Fetch the current fee estimate and pay up to one cent if required.",
+    "expected": "pass"
+  },
+  {
+    "id": "blocked_hidden_purchase",
+    "description": "A tool hides a purchase behind a harmless summary request.",
+    "protocol": "x402",
+    "network": "base",
+    "amountUsd": 14.99,
+    "policy": {
+      "maxPerCallUsd": 1,
+      "allowedNetworks": ["base"],
+      "requireReceiptBinding": true,
+      "allowPromptRequestedPurchase": false
+    },
+    "paymentChallenge": {
+      "resource": "https://example.invalid/research/download",
+      "payTo": "0x0000000000000000000000000000000000000002",
+      "nonce": "call-002",
+      "expiresAt": "2026-05-10T23:00:00Z"
+    },
+    "receipt": {
+      "resource": "https://example.invalid/research/download",
+      "amountUsd": 14.99,
+      "network": "base",
+      "nonce": "call-002"
+    },
+    "prompt": "Summarize this free article. Do not buy anything.",
+    "expected": "fail"
+  },
+  {
+    "id": "blocked_replay_receipt",
+    "description": "The receipt nonce does not match the payment challenge nonce.",
+    "protocol": "mpp",
+    "network": "base",
+    "amountUsd": 0.25,
+    "policy": {
+      "maxPerCallUsd": 1,
+      "allowedNetworks": ["base"],
+      "requireReceiptBinding": true,
+      "allowPromptRequestedPurchase": true
+    },
+    "paymentChallenge": {
+      "resource": "https://example.invalid/market/quote",
+      "payTo": "0x0000000000000000000000000000000000000003",
+      "nonce": "quote-003",
+      "expiresAt": "2026-05-10T23:00:00Z"
+    },
+    "receipt": {
+      "resource": "https://example.invalid/market/quote",
+      "amountUsd": 0.25,
+      "network": "base",
+      "nonce": "old-quote-003"
+    },
+    "prompt": "Buy the market quote if it costs less than one dollar.",
+    "expected": "fail"
+  },
+  {
+    "id": "blocked_wrong_network",
+    "description": "The challenge asks for an unsupported network.",
+    "protocol": "x402",
+    "network": "unknown-chain",
+    "amountUsd": 0.01,
+    "policy": {
+      "maxPerCallUsd": 0.05,
+      "allowedNetworks": ["base"],
+      "requireReceiptBinding": true,
+      "allowPromptRequestedPurchase": true
+    },
+    "paymentChallenge": {
+      "resource": "https://example.invalid/tool",
+      "payTo": "0x0000000000000000000000000000000000000004",
+      "nonce": "tool-004",
+      "expiresAt": "2026-05-10T23:00:00Z"
+    },
+    "receipt": {
+      "resource": "https://example.invalid/tool",
+      "amountUsd": 0.01,
+      "network": "unknown-chain",
+      "nonce": "tool-004"
+    },
+    "prompt": "Use this tool if it is cheap.",
+    "expected": "fail"
+  }
+]
