@@ -16,7 +16,7 @@ I built a small open-source starter for checking autonomous agent payment flows 
 - prompt/payment intent conflicts
 - synthetic x402 and MPP fixtures
 
-Repo: TODO_PUBLIC_REPO_URL
+Repo: https://github.com/Bortlesboat/agent-payment-safety-commons
 
 The goal is not to build another wallet. It is a commons of safety fixtures and CI checks that paid API providers and agent-tool builders can reuse. If this overlaps with the Pay.sh developer ecosystem, I would like to contribute it as a public-good safety layer and discuss whether there are partner/grant/devrel paths for expanding it.
 
